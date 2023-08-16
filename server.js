@@ -14,11 +14,15 @@ connectDB();
 const app = express();
 
 // Middleware
-const corsOptions = {
-  origin: "https://frontend-login-k4ml.onrender.com", // Replace with your frontend's actual origin
-};
-app.use(cors(corsOptions)); // Enable CORS with specified options
 app.use(express.json()); // Parse JSON data in request bodies
+
+// CORS Configuration
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "https://frontend-login-k4ml.onrender.com"); // Replace with your frontend's actual origin
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  next();
+});
 
 // Routes
 app.use("/api/v1/auth", authRoutes); // Use the authRoutes module for authentication routes
