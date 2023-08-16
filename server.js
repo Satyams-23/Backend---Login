@@ -4,31 +4,34 @@ import connectDB from "./config/db.js";
 import authRoutes from "./routes/authRoute.js";
 import cors from "cors";
 
-//configure env
+// Configure environment variables
 dotenv.config();
 
-//databse config
+// Connect to the database
 connectDB();
 
-//rest object
+// Create the Express app
 const app = express();
 
-//middelwares
-app.use(cors());
-app.use(express.json());
+// Middleware
+const corsOptions = {
+  origin: "https://frontend-login-k4ml.onrender.com", // Replace with your frontend's actual origin
+};
+app.use(cors(corsOptions)); // Enable CORS with specified options
+app.use(express.json()); // Parse JSON data in request bodies
 
-//routes
-app.use("/api/v1/auth", authRoutes);
+// Routes
+app.use("/api/v1/auth", authRoutes); // Use the authRoutes module for authentication routes
 
-//rest api
+// Basic route
 app.get("/", (req, res) => {
   res.send("<h1>Welcome to ecommerce app</h1>");
 });
 
-//PORT
-const PORT = process.env.PORT;
+// Port configuration
+const PORT = process.env.PORT || 8000; // Use provided PORT or default to 8000
 
-//run listen
+// Start the server
 app.listen(PORT, () => {
-  console.log(`Server Running on ${process.env.DEV_MODE} mode on port ${PORT}`);
+  console.log(`Server is running in ${process.env.DEV_MODE} mode on port ${PORT}`);
 });
